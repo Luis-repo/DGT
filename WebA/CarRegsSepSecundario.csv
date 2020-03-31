@@ -1,0 +1,10 @@
+Country;Make;Model;Version;Trim level;Body type;Doors;Liters;cc;kW;hp/PS;Fuel;Trans.;trans dsc;# of speeds;Wheels;Seating cap;GVW rating;Wheelbase (mm);Model yr;Sep_19;
+E;ABARTH;500;1.4 T-JET 121KW;TURISMO;;;1,4;1368;121;165;gasoline;manual;;5;front;4;1425;2300;2019;7;
+E;ABARTH;500;1.4 T-JET 121KW;TURISMO;;;1,4;1368;121;165;gasoline;manual;;5;front;4;1435;2300;2019;1;
+E;ABARTH;500;1.4 T-JET 132KW;;;;1,4;1368;132;180;gasoline;manual;;5;front;4;1425;2300;2019;33;
+E;ABARTH;500;1.4 T-JET 132KW;;;;1,4;1368;132;180;gasoline;manual;;5;front;4;1440;2300;2019;11;
+E;ABARTH;500;1.4 T-JET132KW;;;;1,4;1368;132;180;gasoline;manual;;5;front;4;1435;2300;2019;22;
+E;ABARTH;500;1.4 TURBO T-JET 595 107KW;-;;;1,4;1368;107;145;gasoline;manual;;5;front;4;1425;2300;2019;20;
+E;ABARTH;500;1.4 TURBO T-JET 595 118KW PISTA;PISTA;;;1,4;1368;118;160;gasoline;manual;;5;front;4;1425;2300;2019;18;
+E;ACURA;TLX;3.5;;sedan;4;3,5;3471;213;290;gasoline;;;;;5;2080;0;;1;
+E;ALFA ROMEO;GIULIA;2.0 TURBO 147KW;;sedan;4;2;1995;147;200;gasoline;automatic;auto with man;8;rear;5;2005;2820;2019;1;
