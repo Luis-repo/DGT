@@ -9,30 +9,54 @@ and open the template in the editor.
   <title>Bootstrap Example</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  
+  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="js/popper.min.js" type="text/javascript"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  
+  <link href="../dist/css/style.min.css" rel="stylesheet" type="text/css"/>
+  <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+ 
+<!--JS-->
+<script src="js/jquery.min.js" type="text/javascript"></script>
+<script src="../dist/js/modernizr.min.js"></script>
+<script src="../dist/js/uploadHBR.min.js"></script>
 </head>
     <body>
-       <div class="container">
-       <h2>Stacked form</h2>
-       <form action="">
-          <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
-          </div>
-          <div class="form-group">
-            <label for="pwd">Password:</label>
-            <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
-          </div>
-          <div class="form-group form-check">
-            <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" name="remember"> Remember me
-            </label>
-          </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-       </form>
-</div>
+        <form name="form" action="MenuPrincipal" method="post">
+        <div class="row text-center" style="margin-left: 25%;">
+        <div class="col-md-6 col-centered">
+            <div class="col-md-12 text-center">
+                
+                    
+                    <div class="container">
+                    <h2>Ficheros de Datos</h2>
+                    <div class="form-group">
+                     <label for="f1">Fichero Principal (Excel)</label>
+                     <input type="text" class="form-control" id="f1" placeholder="Enter fichero1" name="f1">
+                    </div>
+                    <div class="form-group">
+                      <label for="f2">fichero Secundario (Excel)</label>
+                      <input type="text" class="form-control" id="f2" placeholder="Enter fichero2" name="f2">
+                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12">
+                            <div class="clearfix"></div>
+                            <button class="btn btn-danger btn-lg pull-left" id="reset" type="button" ><i class="fa fa-history"></i> Clear</button>
+                            <button class="btn btn-primary btn-lg pull-right" type="submit" ><i class="fa fa-upload"></i> Download </button>
+                        </div>
+                    </div>
+                
+            </div>
+        </div>
+        </div>
+        </form>
+          
+ 
+        
+        
+        
     </body>
 </html>
