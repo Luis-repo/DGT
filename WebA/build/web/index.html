@@ -14,7 +14,7 @@ and open the template in the editor.
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="js/popper.min.js" type="text/javascript"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-  
+  <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
   <link href="../dist/css/style.min.css" rel="stylesheet" type="text/css"/>
   <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
  
@@ -25,26 +25,30 @@ and open the template in the editor.
 </head>
     <body>
         <form name="form" action="MenuPrincipal" method="post">
-        <div class="row text-center" style="margin-left: 25%;">
-        <div class="col-md-6 col-centered">
+        <div class="row text-center" style="margin-left: 20%;">
+        <div class="col-md-8 col-centered">
             <div class="col-md-12 text-center">
-                
-                    
                     <div class="container">
                     <h2>Ficheros de Datos</h2>
+                    <div class="form-group">  
+                       <div class="custom-file mb-3">
+                        <input type="file" class="custom-file-input" id="fileName1" name="fileName1">
+                        <label class="custom-file-label" for="fileName1">Choose file</label>
+                      </div>  
+                 </div>
                     <div class="form-group">
-                     <label for="f1">Fichero Principal (Excel)</label>
-                     <input type="text" class="form-control" id="f1" placeholder="Enter fichero1" name="f1">
-                    </div>
-                    <div class="form-group">
-                      <label for="f2">fichero Secundario (Excel)</label>
-                      <input type="text" class="form-control" id="f2" placeholder="Enter fichero2" name="f2">
-                    </div>
+                        
+                        <div class="custom-file mb-3">
+                        <input type="file" class="custom-file-input2" id="fileName2" name="fileName2">
+                        <label class="custom-file-label" for="fileName2">Choose file</label>
+                      </div> 
+                   
+                   </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12 col-md-12">
                             <div class="clearfix"></div>
-                            <button class="btn btn-danger btn-lg pull-left" id="reset" type="button" ><i class="fa fa-history"></i> Clear</button>
+                            <button class="btn btn-danger btn-lg pull-left" id="mireset" name="mireset" type="button" ><i class="fa fa-history"></i> Clear</button>
                             <button class="btn btn-primary btn-lg pull-right" type="submit" ><i class="fa fa-upload"></i> Download </button>
                         </div>
                     </div>
@@ -53,10 +57,31 @@ and open the template in the editor.
         </div>
         </div>
         </form>
-          
- 
-        
-        
+        <script>
+            // Add the following code if you want the name of the file appear on select
+            $(".custom-file-input").on("change", function() {
+             // var fileName = $(this).val().split("\\").pop();
+              var fileName = $(this).val();
+              $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            });
+
+            $(".custom-file-input2").on("change", function() {
+             // var fileName = $(this).val().split("\\").pop();
+              var fileName2 = $(this).val();
+              $(this).siblings(".custom-file-label").addClass("selected").html(fileName2);
+            });
+            
+            
+            
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('#mireset').click(function(){
+                   alert("mensaje dentro");
+                });
+            });
+        </script>
         
     </body>
+                    
 </html>
