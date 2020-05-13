@@ -58,6 +58,7 @@ and open the template in the editor.
         </div>
         </form>
         <script>
+            
             // Add the following code if you want the name of the file appear on select
             $(".custom-file-input").on("change", function() {
              // var fileName = $(this).val().split("\\").pop();
@@ -71,16 +72,16 @@ and open the template in the editor.
               $(this).siblings(".custom-file-label").addClass("selected").html(fileName2);
             });
             
-            
-            
-        </script>
-        <script type="text/javascript">
             $(document).ready(function(){
-                $('#mireset').click(function(){
-                   alert("mensaje dentro");
-                });
-            });
+             $('#mireset').click(function(){ 
+                  $(".custom-file-input").siblings(".custom-file-label").html("");
+                  $(".custom-file-input2").siblings(".custom-file-label").html("");
+             });
+            
+             });
+            
         </script>
+        
         
     </body>
                     

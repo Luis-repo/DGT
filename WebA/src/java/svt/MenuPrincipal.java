@@ -6,12 +6,17 @@
 package svt;
 
 import conexion.ConectarBBDD;
+import constantes.Constantes;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 
 import java.io.IOException;
+import java.util.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,6 +28,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -64,7 +70,9 @@ public class MenuPrincipal extends HttpServlet {
         System.out.println(request.getParameter("fileName1"));
         System.out.println(request.getParameter("fileName2"));
         String ruta1= request.getParameter("fileName1");
+        ruta1 = "C:\\DGTWeb\\WebA\\" + ruta1;
         String ruta2= request.getParameter("fileName2");
+        ruta2 = "C:\\DGTWeb\\WebA\\" + ruta2;
         
         File fichero1 = new File(ruta1);
         File fichero2 = new File(ruta2);
@@ -81,7 +89,8 @@ public class MenuPrincipal extends HttpServlet {
         // sigue si los dos ficheros existen
         LeerExcel(ruta1,1);
         System.out.println("*****************");
-        LeerExcel(ruta2,2);
+    //   LeerExcelGrande(ruta2,2);
+        leerCSV(ruta2);
         System.out.println("*****************");
         request.setAttribute("f1", fichero1);
         request.setAttribute("f2", fichero2);
@@ -95,25 +104,20 @@ public class MenuPrincipal extends HttpServlet {
     public static void LeerExcel(String ruta,int numFichero){
             try{
                 String sqlQuery1="",sqlQueryT="";
-                
+               
                 Statement st=null;
+                Statement st_borra=null;
                 ResultSet rs=null;
                 Connection conex = ConectarBBDD.conectaMariaDB();
-                if (numFichero == 1){
-                     sqlQuery1 = "insert into tabla_origen values(";
+                st_borra= conex.createStatement();
+                
+                     String sqlQuery_borra = "delete from origen5;";
+                     st_borra.execute(sqlQuery_borra);
+                     st_borra.close();
+                     sqlQuery1 = "insert into origen5 values(";
                      st= conex.createStatement();
-                     
-                }else{
-                     // String sqlQuery2 = "select * from tabla_origen";
-                     // PreparedStatement st= conex.prepareStatement(sqlQuery2);
-                }
-                
-                
-		String rutaArchivo = ruta;
-		String hoja = "Hoja1";
- 
-		
-                       
+		     String rutaArchivo = ruta;
+		     String hoja = "Hoja1";
                        FileInputStream file = new FileInputStream(new File(rutaArchivo));
 			// leer archivo excel
 			XSSFWorkbook worbook = new XSSFWorkbook(file);
@@ -135,21 +139,112 @@ public class MenuPrincipal extends HttpServlet {
 					// se obtiene la celda en específico y se la imprime
 					cell = cellIterator.next();
                                         if (cabecera==false){
-                                            contenido = contenido  + "'"+ cell.toString() + "'" + ",";
+                                             String quitaComillas = cell.toString().trim();
+                                             String cadenaLimpia = quitaComillas.replaceAll("\'","");
+                                            contenido = contenido  + "'"+ cadenaLimpia.trim() + "'" + ",";
                                             System.out.print(contenido);
                                         }
 					
 				}
 				System.out.println();
                                 if (cabecera==false){
+                                  //  System.out.println("paraaa");
+                                    String micontenido = contenido.substring(0,contenido.length()-1);
                                     
-                                    contenido = contenido.substring(0,contenido.length()-1);
-                                    if (numFichero == 1){
-                                         sqlQueryT = sqlQuery1 + contenido + (");");
-                                         rs = st.executeQuery(sqlQueryT);
+                                         sqlQueryT = sqlQuery1 + micontenido + (");");
+                                         st.execute(sqlQueryT);                              
+                                }else{
+                                    cabecera=false;
+                                }
+                                
+			}
+                        if (rs!=null) rs.close();
+                        if (st!=null) st.close();
+		} catch (Exception e) {
+			             System.out.println("ERROR -->" + e.getMessage());
+		}
+	}
+    
+    public static void LeerExcelGrande(String ruta,int numFichero){
+            
+            try{
+                
+                String sqlQuery1="",sqlQueryT="";
+                Statement st=null;
+                Statement st_borra=null;
+                ResultSet rs=null;
+                Connection conex = ConectarBBDD.conectaMariaDB();
+                st_borra= conex.createStatement();
+                       String sqlQuery_borra = "delete from destino55;";
+                       st_borra.execute(sqlQuery_borra);
+                       st_borra.close();
+                       sqlQuery1 = "insert into destino55 values(";
+                       st= conex.createStatement();
+		       String rutaArchivo = ruta;
+		       String hoja = "Hoja1";
+                       FileInputStream file = new FileInputStream(new File(rutaArchivo));
+			// leer archivo excel
+			XSSFWorkbook worbook = new XSSFWorkbook(file);
+			//obtener la hoja que se va leer
+			XSSFSheet sheet = worbook.getSheetAt(0);
+			//obtener todas las filas de la hoja excel
+			Iterator<Row> rowIterator = sheet.iterator();
+			Row row;
+                        boolean cabecera = true;
+                        int numColums = 1;
+                        String dat ="";
+			// se recorre cada fila hasta el final
+			while (rowIterator.hasNext()) {
+                                String contenido="";
+				row = rowIterator.next();
+				//se obtiene las celdas por fila
+				Iterator<Cell> cellIterator = row.cellIterator();
+				Cell cell;
+				//se recorre cada celda
+				while (cellIterator.hasNext()) {
+					// se obtiene la celda en específico y se la imprime
+					cell = cellIterator.next();
+                                        if (cell.getCellType() == CellType.BLANK){
+                                             dat = "";
+                                        }else if (cell.getCellType() == CellType.NUMERIC){
+                                            dat = String.valueOf(cell).trim();
+                                            if (dat.contains("E")){
+                                                dat=dat.substring(0, dat.indexOf("E"));
+                                            }
+                                        }else if (cell.getCellType() == CellType._NONE){
+                                            dat = "";
+                                        }else{
+                                            dat = cell.getStringCellValue().trim();
+                                        }
+                                   
+                                        if (cabecera==false){
+                                            contenido = contenido  + "'"+ dat.toString().trim() + "'" + ",";
+                                            System.out.println(dat);
+                                        }else{
+                                            numColums++;
+                                        }
+					
+				}
+                                
+				System.out.println();
+                                if (cabecera==false){
+                                  //  System.out.println("paraaa");
+                                    String micontenido = contenido.substring(0,contenido.length()-1);
+                                    int faltanColumnas= 12 - (numColums - Constantes.TOTAL_CAMPOS);
+                                    if (faltanColumnas>0){
+                                        for (int m= 1; m <= faltanColumnas; m++) {
+                                            sqlQueryT = sqlQuery1 + micontenido + "" + ",";
+                                        }
+                                        String contFinal = sqlQueryT.substring(0,sqlQueryT.length()-1); 
+                                        sqlQueryT = contFinal + (");");
+                                        st.execute(sqlQueryT);
+                                        
                                     }else{
-                                          sqlQueryT = "";
-                                    }                           
+                                         sqlQueryT = sqlQuery1 + micontenido + (");");
+                                         st.execute(sqlQueryT);
+                                    }
+                                         
+                                                        
                                     
                                 }else{
                                     cabecera=false;
@@ -159,9 +254,66 @@ public class MenuPrincipal extends HttpServlet {
                         if (rs!=null) rs.close();
                         if (st!=null) st.close();
 		} catch (Exception e) {
-			e.getMessage();
+			System.out.println("ERROR -->" + e.getMessage());
 		}
 	}
+    
+    
+        public static void leerCSV(String ruta){
+            BufferedReader br = null;
+            String SEPARATOR=";";
+             String contFinal="";
+             String dato="";
+      try {
+           String sqlQuery1="",sqlQueryT="";
+           Statement st=null;
+           Statement st_borra=null;
+          
+          
+           Connection conex = ConectarBBDD.conectaMariaDB();
+           st_borra= conex.createStatement();
+           String sqlQuery_borra = "delete from destino55;";
+           st_borra.execute(sqlQuery_borra);
+           st_borra.close();
+           sqlQuery1 = "insert into destino55 values(";
+           st= conex.createStatement();
+         
+            br =new BufferedReader(new FileReader(ruta));
+            String line = br.readLine();
+            int numLine = 0;
+            while (null!=line) {
+               String [] fields = line.split(SEPARATOR);
+              // System.out.println(Arrays.toString(fields));
+                numLine++;
+                 if (numLine>1){
+                     for (int i = 0; i < fields.length; i++) {
+                         if (fields[i].contains("\'")){
+                              dato= fields[i].replaceAll("\'", "");
+                         }else{
+                             dato= fields[i];
+                         }
+                       sqlQuery1 = sqlQuery1 + "'" + dato.trim() + ("'") + ",";
+                    }
+                    if (Constantes.TOTAL_CAMPOS_CSV > fields.length){
+                        for (int i = fields.length; i < Constantes.TOTAL_CAMPOS_CSV; i++) {
+                         sqlQuery1 = sqlQuery1 + "'" + "" + "'" + ",";   
+                        }
+                    } 
+                     String micontenido = sqlQuery1.substring(0,sqlQuery1.length()-1); 
+                     contFinal =  micontenido + ");";
+                     System.out.println(contFinal);
+                     st.execute(contFinal);
+                 }
+               line = br.readLine();
+               sqlQuery1 = "insert into destino55 values(";
+            }
+         
+            }catch (Exception e) {
+                System.out.println(contFinal);
+                System.out.println(e.getMessage());
+            } 
+
+            }
     }
 
     
