@@ -69,6 +69,8 @@ public class MenuPrincipal extends HttpServlet {
             throws ServletException, IOException {
         System.out.println(request.getParameter("fileName1"));
         System.out.println(request.getParameter("fileName2"));
+        System.out.println(request.getParameter("radio"));
+        String mes = request.getParameter("radio");
         String ruta1= request.getParameter("fileName1");
         ruta1 = "C:\\DGTWeb\\WebA\\" + ruta1;
         String ruta2= request.getParameter("fileName2");
@@ -94,6 +96,7 @@ public class MenuPrincipal extends HttpServlet {
         System.out.println("*****************");
         request.setAttribute("f1", fichero1);
         request.setAttribute("f2", fichero2);
+        request.setAttribute("mes", mes);
         RequestDispatcher rd=request.getRequestDispatcher("/jsp/menuPrincipal.jsp");  
         rd.forward(request, response);  
         
