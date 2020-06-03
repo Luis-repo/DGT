@@ -20,8 +20,11 @@ import java.util.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -265,15 +268,13 @@ public class MenuPrincipal extends HttpServlet {
         public static void leerCSV(String ruta){
             BufferedReader br = null;
             String SEPARATOR=";";
-             String contFinal="";
-             String dato="";
+            String contFinal="";
+            String dato="";
+            Statement st=null;
+            Statement st_borra=null;
+            Connection conex = ConectarBBDD.conectaMariaDB();
       try {
            String sqlQuery1="",sqlQueryT="";
-           Statement st=null;
-           Statement st_borra=null;
-          
-          
-           Connection conex = ConectarBBDD.conectaMariaDB();
            st_borra= conex.createStatement();
            String sqlQuery_borra = "delete from destino55;";
            st_borra.execute(sqlQuery_borra);
@@ -310,12 +311,20 @@ public class MenuPrincipal extends HttpServlet {
                line = br.readLine();
                sqlQuery1 = "insert into destino55 values(";
             }
-         
+            st.close();
+            conex.close();
             }catch (Exception e) {
                 System.out.println(contFinal);
                 System.out.println(e.getMessage());
-            } 
-
+                try {
+                    st.close();
+                    conex.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+               
+            }
+            
             }
     }
 
