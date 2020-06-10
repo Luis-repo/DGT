@@ -12,6 +12,7 @@ package constantes;
 public class Constantes {
     public static final int TOTAL_CAMPOS =45;
     public static final int TOTAL_CAMPOS_CSV =57;
+    public static final int TOT_JENKINS =57;
     
     
 }
